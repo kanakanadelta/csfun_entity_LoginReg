@@ -1,0 +1,54 @@
+@using LoginReg.Models
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    #register-form {
+      display: flex;
+    }
+    #register-form div {
+      display: flex;
+      flex-direction: column;
+      margin: 0 10px;
+    }
+
+  </style>
+  <title>A Web App</title>
+</head>
+<body>
+  <h1>Register to this cool site</h1>
+  @model User
+  <form id="register-form" asp-controller="Home" asp-action="Register">
+    <div>
+      <!-- First Name -->
+      <label asp-for="FirstName"></label>
+      <input type="text" asp-for="FirstName">
+      <p style="color:red;" asp-validation-for="FirstName"></p>
+      <!-- Last Name -->
+      <label asp-for="LastName"></label>
+      <input type="text" asp-for="LastName">
+      <p style="color:red;" asp-validation-for="LastName"></p>
+      <!-- Email -->
+      <label asp-for="Email"></label>
+      <input type="email" asp-for="Email">
+      <p style="color:red;" asp-validation-for="Email"></p>
+      <br>
+      <input type="submit" value="Sign Up Now">
+    </div>
+    <div>
+      <!-- Password -->
+      <label asp-for="Password"></label>
+      <input type="password" asp-for="Password">
+      <p style="color:red;" asp-validation-for="Password"></p>
+      <!-- Confirm -->
+      <label asp-for="Confirm"></label>
+      <input type="password" asp-for="Confirm">
+      <p style="color:red;" asp-validation-for="Confirm"></p>
+    </div>
+  </form>
+</body>
+</html>
