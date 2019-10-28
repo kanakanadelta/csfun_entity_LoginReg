@@ -1,8 +1,10 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using LoginReg.Models;
 
+using Microsoft.AspNetCore.Http;
 
 using System.Linq;
 using System.Collections.Generic;
@@ -31,9 +33,28 @@ namespace LoginReg.Controllers
         }
 
         [HttpGet("success")]
-        public IActionResult Success()
+        public IActionResult Success(User user)
         {
-            return View();
+            if(HttpContext.Session.GetInt32("UserId") != null)
+            {
+                string userName = HttpContext.Session.GetString("UserName");
+                int? userId = HttpContext.Session.GetInt32("UserAge");
+
+                ViewBag.UserName = userName;
+                ViewBag.UserId = userId;
+                return View();
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+
+        [HttpGet("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
 
         [HttpPost("register")]
@@ -69,6 +90,9 @@ namespace LoginReg.Controllers
                 user.Password = hasher.HashPassword(user, user.Password);
                 DbContext.Add(user);
                 DbContext.SaveChanges();
+
+                HttpContext.Session.SetString("UserName", user.FirstName);
+                HttpContext.Session.SetInt32("UserId", user.UserId);
                 return RedirectToAction("Success");
             }
             else
@@ -106,6 +130,8 @@ namespace LoginReg.Controllers
                 }
                 else
                 {
+                    HttpContext.Session.SetString("UserName", userInDb.FirstName);
+                    HttpContext.Session.SetInt32("UserId", userInDb.UserId);
                     return RedirectToAction("Success");
                 }
                 
