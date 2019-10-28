@@ -7,10 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <style>
-    #register-form {
+    .register-form {
       display: flex;
     }
-    #register-form div {
+    .register-form div {
       display: flex;
       flex-direction: column;
       margin: 0 10px;
@@ -22,7 +22,7 @@
 <body>
   <h1>Register to this cool site</h1>
   @model User
-  <form id="register-form" asp-controller="Home" asp-action="Register">
+  <form class="register-form" asp-controller="Home" asp-action="Register">
     <div>
       <!-- First Name -->
       <label asp-for="FirstName"></label>
@@ -48,6 +48,9 @@
       <label asp-for="Confirm"></label>
       <input type="password" asp-for="Confirm">
       <p style="color:red;" asp-validation-for="Confirm"></p>
+    </div>
+    <div>
+      <a href="/login">Login</a>
     </div>
   </form>
 </body>

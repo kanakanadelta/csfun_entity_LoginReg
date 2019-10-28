@@ -30,7 +30,7 @@ namespace LoginReg
         public void ConfigureServices(IServiceCollection services)
         {
 
-            string mySqlConnection = "server=***;userid=***;password=***;port=***;database=***;SslMode=None";
+            string mySqlConnection = "server=localhost;userid=root;password=root;port=3306;database=entitylogin;SslMode=None";
 
             //inject the context we made
             services.AddDbContext<RegContext>(options => options.UseMySql(mySqlConnection));

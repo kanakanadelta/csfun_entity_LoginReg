@@ -1,0 +1,44 @@
+@using LoginReg.Models
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    .register-form {
+      display: flex;
+    }
+    .register-form div {
+      display: flex;
+      flex-direction: column;
+      margin: 0 10px;
+    }
+
+  </style>
+  <title>A Web Page</title>
+</head>
+<body>
+  <h1>Login to this cool site</h1>
+  <div>
+    @model User
+    <form class="register-form" asp-controller="Home" asp-action="LoginConfirm">
+        <!-- Email -->
+        <div>
+          <label asp-for="Email"></label>
+          <input type="email" asp-for="Email">
+          <p style="color:red;"  asp-validation-for="Email"></p>
+          <label asp-for="Password"></label>
+          <input type="password" asp-for="Password">
+          <p style="color:red;"  asp-validation-for="Password"></p>
+          <input type="submit" value="Sign In Now">
+        </div>
+        <!-- Passowrd -->
+        <div>
+          <a href="/">Register</a>
+        </div>  
+      </form>
+  </div>
+</body>
+</html>

@@ -24,6 +24,12 @@ namespace LoginReg.Controllers
             return View();
         }
 
+        [HttpGet("login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpGet("success")]
         public IActionResult Success()
         {
@@ -64,6 +70,45 @@ namespace LoginReg.Controllers
                 DbContext.Add(user);
                 DbContext.SaveChanges();
                 return RedirectToAction("Success");
+            }
+            else
+            {
+                return View("Index");
+            }
+        }
+
+        [HttpPost("loginconfirm")]
+        public IActionResult LoginConfirm(LoginUser userSubmission)
+        {
+            if(ModelState.IsValid)
+            {
+                // If inital ModelState is valid, query for a user with provided email
+                var userInDb = DbContext.Users.FirstOrDefault(u => u.Email == userSubmission.Email);
+                // If no user exists with provided email
+                if(userInDb == null)
+                {
+                    // Add an error to ModelState and return to View!
+                    ModelState.AddModelError("Email", "Invalid Email/Password");
+                    return View("Login");
+                }
+                // Initialize hasher object
+                var hasher = new PasswordHasher<LoginUser>();
+                
+                // verify provided password against hash stored in db
+                var result = hasher.VerifyHashedPassword(userSubmission, userInDb.Password, userSubmission.Password);
+                
+                // result can be compared to 0 for failure
+                if(result == 0)
+                {
+                    // handle failure (this should be similar to how "existing email" is handled)
+                    ModelState.AddModelError("Password", "Invalid Email/Password");
+                    return View("Login");
+                }
+                else
+                {
+                    return RedirectToAction("Success");
+                }
+                
             }
             else
             {
